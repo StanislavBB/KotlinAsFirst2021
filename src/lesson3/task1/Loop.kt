@@ -72,7 +72,17 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var num = n
+    var count = 0
+    if (num == 0) count++ else {
+        while (num != 0) {
+            count++
+            num /= 10
+        }
+    }
+    return count
+}
 
 /**
  * Простая (2 балла)
@@ -80,7 +90,18 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var fib1 = 1
+    var fib2 = 1
+    var a = 0
+    while ((n - 2) > a) {
+        a++
+        val sumf = fib1 + fib2
+        fib1 = fib2
+        fib2 = sumf
+    }
+    return fib2
+}
 
 /**
  * Простая (2 балла)
@@ -130,7 +151,6 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean = TODO()
-
 /**
  * Средняя (3 балла)
  *
@@ -138,7 +158,15 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var num = n
+    var rev = 0
+    while (num != 0) {
+        rev = (rev * 10) + (num % 10)
+        num /= 10
+    }
+    return rev
+}
 
 /**
  * Средняя (3 балла)
