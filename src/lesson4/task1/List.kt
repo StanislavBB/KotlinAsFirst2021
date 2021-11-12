@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import ru.spbstu.ktuples.zip
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -15,7 +16,7 @@ import kotlin.math.sqrt
  *
  * Найти все корни уравнения x^2 = y
  */
-fun sqRoots(y: Double) =
+fun sqRoots2(y: Double) =
     when {
         y < 0 -> listOf()
         y == 0.0 -> listOf(0.0)
@@ -25,7 +26,16 @@ fun sqRoots(y: Double) =
             listOf(-root, root)
         }
     }
-
+fun sqRoots(y: Double): List<Double> {
+    if (y < 0) {
+        return listOf()
+    }
+    if (y == 0.0) {
+        return listOf(0.0)
+    }
+    val root = sqrt(y)
+    return listOf(-root, root)
+}
 /**
  * Пример
  *
@@ -34,8 +44,7 @@ fun sqRoots(y: Double) =
  */
 fun biRoots(a: Double, b: Double, c: Double): List<Double> {
     if (a == 0.0) {
-        return if (b == 0.0) listOf()
-        else sqRoots(-c / b)
+        return if (b == 0.0) listOf() else sqRoots(-c / b)
     }
     val d = discriminant(a, b, c)
     if (d < 0.0) return listOf()
@@ -127,7 +136,13 @@ fun abs(v: List<Double>): Double = TODO()
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    val count = list.count()
+    if (count == 0) {
+        return 0.0
+    }
+    return (list.sum() / count)
+}
 
 /**
  * Средняя (3 балла)
@@ -137,7 +152,13 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val m = mean(list)
+    for (i in 0 until list.size) {
+        list[i] -= m
+    }
+    return list
+}
 
 /**
  * Средняя (3 балла)
@@ -146,8 +167,7 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int = TODO()
-
+fun times(a: List<Int>, b: List<Int>): Int = zip(a, b).sumOf { it.v0 * it.v1 }
 /**
  * Средняя (3 балла)
  *
@@ -168,7 +188,18 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    if (list.size == 0) {
+        return list
+    }
+    var a = list[0]
+    for (i in 1 until list.size) {
+        a += list[i]
+        list[i] = a
+    }
+    return list
+}
+
 
 /**
  * Средняя (3 балла)

@@ -96,7 +96,17 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    var r = mutableMapOf<Int, List<String>>()
+    for ((name, grade) in grades) {
+        if (grade !in r) {
+            r[grade] = mutableListOf()
+        }
+        val l = r[grade] as MutableList
+        l.add(name)
+    }
+    return r
+}
 
 /**
  * Простая (2 балла)
@@ -108,7 +118,20 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    if (a.size > b.size) {
+        return false
+    }
+    for ((k,v) in a){
+        if (!b.containsKey(k)) {
+            return false
+        }
+        if (v != b[k]) {
+            return false
+        }
+    }
+    return true
+}
 
 /**
  * Простая (2 балла)
@@ -166,7 +189,16 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    val r = mutableMapOf<String, List<Double>>()
+    stockPrices.forEach {
+        if (!r.containsKey(it.first)) {
+            r[it.first] = mutableListOf()
+        }
+        (r[it.first] as MutableList).add(it.second)
+    }
+    return r.mapValues { it.value.sum() / it.value.count() }
+}
 
 /**
  * Средняя (4 балла)
@@ -277,7 +309,14 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    list.forEachIndexed { i, n ->
+        for (j in i + 1 until list.size) {
+            if (list[i] + list[j] == number) return Pair(i, j)
+        }
+    }
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная (8 баллов)

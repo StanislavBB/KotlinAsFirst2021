@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -108,14 +109,30 @@ fun fib(n: Int): Int {
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var i = 1
+    while (i <= n) {
+        i = i + 1
+        if ((n % i) == 0)
+            break
+    }
+    return i
+}
+
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var i = n - 1
+    while (i > 1) {
+        if (n % i == 0) break
+        i--
+    }
+    return i
+}
 
 /**
  * Простая (2 балла)
@@ -150,7 +167,16 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var i = 2
+    while (i <= m) {
+        if (m % i == 0 && n % i == 0) {
+            return false
+        }
+        i++
+    }
+    return true
+}
 /**
  * Средняя (3 балла)
  *
@@ -187,7 +213,16 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    if (n < 10) return false
+    var i = n
+    val last = n % 10
+    while (i != 0) {
+        if (last != i % 10) return true
+        i /= 10
+    }
+    return false
+}
 
 /**
  * Средняя (4 балла)
@@ -198,7 +233,20 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var sum = 0.0
+    var i = 1
+    while (true) {
+        val n = x.pow(i) / factorial(i)
+        if (Double.NaN.equals(n) || n <= eps) {
+            break
+        }
+        sum += n * (-1.0).pow(i / 2)
+        i += 2
+    }
+    if (Double.NaN.equals(sum)) {sum = 0.0}
+    return sum
+}
 
 /**
  * Средняя (4 балла)
@@ -209,7 +257,20 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var sum = 0.0
+    var i = 0
+    while (true) {
+        val n = x.pow(i) / factorial(i)
+        if (Double.NaN.equals(n) || n <= eps) {
+            break
+        }
+        sum += n * (-1.0).pow(i / 2)
+        i += 2
+    }
+    if (Double.NaN.equals(sum)) {sum = 1.0}
+    return sum
+}
 
 /**
  * Сложная (4 балла)
