@@ -4,6 +4,9 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import ru.spbstu.ktuples.zip
+import java.util.*
+import java.util.stream.Collectors
+import kotlin.Comparator
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -272,7 +275,43 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+internal enum class RomanNumeral(value: Int) {
+    I(1), IV(4), V(5), IX(9), X(10), XL(40), L(50), XC(90), C(100), CD(400), D(500), CM(900), M(1000);
+
+    private val value: Int
+    fun getValue(): Int = value
+
+    companion object {
+        val reverseSortedValues: List<RomanNumeral>
+            get() = Arrays.stream(values())
+                .sorted(Comparator.comparing { e: RomanNumeral -> e.value }.reversed())
+                .collect(Collectors.toList())
+    }
+
+    init {
+        this.value = value
+    }
+}
+fun roman(n: Int): String {
+    require(!(n <= 0 || n > 4000)) { "$n is not in range (0,4000]" }
+    var number = n
+    val romanNumerals: List<RomanNumeral> = RomanNumeral.reverseSortedValues
+
+    var i = 0
+    val sb = StringBuilder()
+
+    while (number > 0 && i < romanNumerals.size) {
+        val currentSymbol = romanNumerals[i]
+        if (currentSymbol.getValue() <= number) {
+            sb.append(currentSymbol.name)
+            number -= currentSymbol.getValue()
+        } else {
+            i++
+        }
+    }
+
+    return sb.toString()
+}
 
 /**
  * Очень сложная (7 баллов)
