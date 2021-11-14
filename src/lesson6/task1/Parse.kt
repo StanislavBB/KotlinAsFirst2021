@@ -74,7 +74,36 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val months = mapOf(
+        "января" to 1,
+        "февраля" to 2,
+        "марта" to 3,
+        "апреля" to 4,
+        "мая" to 5,
+        "июня" to 6,
+        "июля" to 7,
+        "августа" to 8,
+        "сентября" to 9,
+        "октября" to 10,
+        "ноября" to 11,
+        "декабря" to 12
+    )
+    var r = ""
+    try {
+        val (d, m, y) = str.split(" ")
+        val day = d.toInt()
+        require(day in (1..31))
+        val month = months[m]!!
+        require(month in (1..12))
+        val year = y.toInt()
+        require(year > 2000)
+        r = "${twoDigitStr(day)}.${twoDigitStr(month)}.$year"
+    } catch (e: Exception) {
+    }
+    return r
+}
+
 
 /**
  * Средняя (4 балла)
@@ -86,7 +115,34 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+
+    val months = listOf(
+        "января",
+        "февраля",
+        "марта",
+        "апреля",
+        "мая",
+        "июня",
+        "июля",
+        "августа",
+        "сентября",
+        "октября",
+        "ноября",
+        "декабря"
+    )
+    var r = ""
+    try {
+        val (day, month, year) = digital.split(".").map { it.toInt() }
+        require(day in (1..31))
+        require(month in (1..12))
+        require(year > 2000)
+        r = "$day ${months[month - 1]} $year"
+    } catch (e: Exception) {
+    }
+    return r
+}
+
 
 /**
  * Средняя (4 балла)
