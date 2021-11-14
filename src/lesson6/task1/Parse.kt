@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import java.time.LocalDate
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -93,11 +95,9 @@ fun dateStrToDigit(str: String): String {
     try {
         val (d, m, y) = str.split(" ")
         val day = d.toInt()
-        require(day in (1..31))
         val month = months[m]!!
-        require(month in (1..12))
         val year = y.toInt()
-        require(year > 2000)
+        val date = LocalDate.of(year, month, day)
         r = "${twoDigitStr(day)}.${twoDigitStr(month)}.$year"
     } catch (e: Exception) {
     }
@@ -133,10 +133,10 @@ fun dateDigitToStr(digital: String): String {
     )
     var r = ""
     try {
-        val (day, month, year) = digital.split(".").map { it.toInt() }
-        require(day in (1..31))
-        require(month in (1..12))
-        require(year > 2000)
+        val parts = digital.split(".").map { it.toInt() }
+        require(parts.size == 3)
+        val (day, month, year) = parts
+        val date = LocalDate.of(year, month, day)
         r = "$day ${months[month - 1]} $year"
     } catch (e: Exception) {
     }
