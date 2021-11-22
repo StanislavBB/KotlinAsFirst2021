@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import kotlin.math.PI
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -75,12 +76,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var num = n
-    var count = 0
-    if (num == 0) count++ else {
-        while (num != 0) {
-            count++
-            num /= 10
-        }
+    var count = 1
+    while (num >= 10) {
+        count++
+        num /= 10
     }
     return count
 }
@@ -110,13 +109,11 @@ fun fib(n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var i = 1
-    while (i <= n) {
-        i = i + 1
-        if ((n % i) == 0)
-            break
+    for (m in 2..n / 2) {
+        if ((n % m) == 0)
+            return m
     }
-    return i
+    return n
 }
 
 
@@ -126,12 +123,12 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var i = n - 1
-    while (i > 1) {
-        if (n % i == 0) break
-        i--
+    for (m in 2..n / 2) {
+        if (n % m == 0) {
+            return n / m
+        }
     }
-    return i
+    return 1
 }
 
 /**
@@ -168,12 +165,10 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var i = 2
-    while (i <= m) {
-        if (m % i == 0 && n % i == 0) {
+    for (i in 2..n / 2) {
+        if (n % i == 0 && m % i == 0) {
             return false
         }
-        i++
     }
     return true
 }
@@ -237,14 +232,13 @@ fun sin(x: Double, eps: Double): Double {
     var sum = 0.0
     var i = 1
     while (true) {
-        val n = x.pow(i) / factorial(i)
-        if (Double.NaN.equals(n) || n <= eps) {
+        val n = (x % (2 * PI)).pow(i) / factorial(i)
+        if (n <= eps) {
             break
         }
-        sum += n * (-1.0).pow(i / 2)
+        sum += n * (-1.0).pow(i / 2 % 2)
         i += 2
     }
-    if (Double.NaN.equals(sum)) {sum = 0.0}
     return sum
 }
 
@@ -293,3 +287,4 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int = TODO()
+
