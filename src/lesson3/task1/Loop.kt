@@ -110,8 +110,11 @@ fun fib(n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (m in 2..n / 2) {
-        if ((n % m) == 0)
+    if (n % 2 == 0) {
+        return 2
+    }
+    for (m in 3..sqrt(n.toDouble()).toInt() step 2) {
+        if (n % m == 0)
             return m
     }
     return n
@@ -123,14 +126,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    for (m in 2..n / 2) {
-        if (n % m == 0) {
-            return n / m
-        }
-    }
-    return 1
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая (2 балла)
@@ -166,13 +162,20 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    for (i in 2..n / 2) {
+    if (n % m == 0 || m % n == 0) {
+        return false
+    }
+    if (n % 2 == 0 && m % 2 == 0) {
+        return false
+    }
+    for (i in 3..sqrt(n.toDouble()).toInt() step 2) {
         if (n % i == 0 && m % i == 0) {
             return false
         }
     }
     return true
 }
+
 /**
  * Средняя (3 балла)
  *
@@ -256,14 +259,13 @@ fun cos(x: Double, eps: Double): Double {
     var sum = 0.0
     var i = 0
     while (true) {
-        val n = x.pow(i) / factorial(i)
-        if (Double.NaN.equals(n) || n <= eps) {
+        val n = (x % (2 * PI)).pow(i) / factorial(i)
+        sum += n * (-1.0).pow(i / 2 % 2)
+        i += 2
+        if (n < eps) {
             break
         }
-        sum += n * (-1.0).pow(i / 2)
-        i += 2
     }
-    if (Double.NaN.equals(sum)) {sum = 1.0}
     return sum
 }
 

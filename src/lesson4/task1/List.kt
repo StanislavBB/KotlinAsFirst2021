@@ -2,6 +2,7 @@
 
 package lesson4.task1
 
+import kotlinx.html.InputType
 import lesson1.task1.discriminant
 import ru.spbstu.ktuples.zip
 import java.util.*
@@ -29,6 +30,7 @@ fun sqRoots2(y: Double) =
             listOf(-root, root)
         }
     }
+
 fun sqRoots(y: Double): List<Double> {
     if (y < 0) {
         return listOf()
@@ -39,6 +41,7 @@ fun sqRoots(y: Double): List<Double> {
     val root = sqrt(y)
     return listOf(-root, root)
 }
+
 /**
  * Пример
  *
@@ -171,6 +174,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
 fun times(a: List<Int>, b: List<Int>): Int = zip(a, b).sumOf { it.v0 * it.v1 }
+
 /**
  * Средняя (3 балла)
  *
@@ -192,13 +196,10 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    if (list.size == 0) {
-        return list
-    }
-    var a = list[0]
+    var s = 0
     for (i in 1 until list.size) {
-        a += list[i]
-        list[i] = a
+        s += list[i]
+        list[i] = s + list[0]
     }
     return list
 }
@@ -275,42 +276,38 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-internal enum class RomanNumeral(value: Int) {
-    I(1), IV(4), V(5), IX(9), X(10), XL(40), L(50), XC(90), C(100), CD(400), D(500), CM(900), M(1000);
 
-    private val value: Int
-    fun getValue(): Int = value
-
-    companion object {
-        val reverseSortedValues: List<RomanNumeral>
-            get() = Arrays.stream(values())
-                .sorted(Comparator.comparing { e: RomanNumeral -> e.value }.reversed())
-                .collect(Collectors.toList())
-    }
-
-    init {
-        this.value = value
-    }
-}
 fun roman(n: Int): String {
     require(!(n <= 0 || n > 4000)) { "$n is not in range (0,4000]" }
+    val romanNumerals = listOf(
+        "M" to 1000,
+        "CM" to 900,
+        "D" to 500,
+        "CD" to 400,
+        "C" to 100,
+        "XC" to 90,
+        "L" to 50,
+        "XL" to 40,
+        "X" to 10,
+        "IX" to 9,
+        "V" to 5,
+        "IV" to 4,
+        "I" to 1
+    )
     var number = n
-    val romanNumerals: List<RomanNumeral> = RomanNumeral.reverseSortedValues
-
     var i = 0
-    val sb = StringBuilder()
-
+    var r = ""
     while (number > 0 && i < romanNumerals.size) {
-        val currentSymbol = romanNumerals[i]
-        if (currentSymbol.getValue() <= number) {
-            sb.append(currentSymbol.name)
-            number -= currentSymbol.getValue()
+        val romanSymbol = romanNumerals[i].first
+        val value = romanNumerals[i].second
+        if (value <= number) {
+            r += romanSymbol
+            number -= value
         } else {
             i++
         }
     }
-
-    return sb.toString()
+    return r
 }
 
 /**
