@@ -162,6 +162,9 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
+    if (m == 1 && n == 1) {
+        return true
+    }
     if (n % m == 0 || m % n == 0) {
         return false
     }
@@ -237,7 +240,7 @@ fun sin(x: Double, eps: Double): Double {
     var i = 1
     while (true) {
         val n = (x % (2 * PI)).pow(i) / factorial(i)
-        if (n <= eps) {
+        if (abs(n) <= eps) {
             break
         }
         sum += n * (-1.0).pow(i / 2 % 2)
