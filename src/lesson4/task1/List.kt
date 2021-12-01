@@ -277,7 +277,6 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    require(!(n <= 0 || n > 4000)) { "$n is not in range (0,4000]" }
     val romanNumerals = listOf(
         "M" to 1000,
         "CM" to 900,
