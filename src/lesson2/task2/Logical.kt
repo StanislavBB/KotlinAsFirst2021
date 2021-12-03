@@ -3,6 +3,8 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Пример
@@ -60,11 +62,10 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return when {
-        ((b <= s) || (c <= s)) && (a <= r) -> true
-        ((c <= s) || (a <= s)) && (b <= r) -> true
-        ((b <= s) || (a <= s)) && (c <= r) -> true
-        else -> false
-    }
-}
+    val (m1, m2) = listOf(a, b, c).sorted()
+    min(min(a, b), c)
+    val sum = (a + b + c)
+    val a = (sum - (b + c))
 
+    return m1 <= min(r, s) && m2 <= max(r, s)
+}
