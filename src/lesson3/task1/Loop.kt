@@ -2,10 +2,7 @@
 
 package lesson3.task1
 
-import kotlin.math.PI
-import kotlin.math.abs
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -152,7 +149,22 @@ fun collatzSteps(x: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    if (m % n == 0 || n % m == 0) return max(n, m)
+    var r = 1
+    var a = m
+    var b = n
+    var mind = minDivisor(a)
+    while (mind != a) {
+        if (b % mind == 0) {
+            b /= mind
+        }
+        r *= mind
+        a /= mind
+        mind = minDivisor(a)
+    }
+    return r * a * b
+}
 
 /**
  * Средняя (3 балла)
