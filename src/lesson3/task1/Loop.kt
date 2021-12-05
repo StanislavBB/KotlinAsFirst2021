@@ -173,23 +173,7 @@ fun lcm(m: Int, n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    if (m == 1 && n == 1) {
-        return true
-    }
-    if (n % m == 0 || m % n == 0) {
-        return false
-    }
-    if (n % 2 == 0 && m % 2 == 0) {
-        return false
-    }
-    for (i in 3..sqrt(n.toDouble()).toInt() step 2) {
-        if (n % i == 0 && m % i == 0) {
-            return false
-        }
-    }
-    return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = (lcm(m, n) == m * n)
 
 /**
  * Средняя (3 балла)
