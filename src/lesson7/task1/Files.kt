@@ -167,7 +167,26 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  * Ключи в ассоциативном массиве должны быть в нижнем регистре.
  *
  */
-fun top20Words(inputName: String): Map<String, Int> = TODO()
+fun top20Words(inputName: String): Map<String, Int> {
+    val words = File(inputName).readText().lowercase()
+//        .split(' ', ',', '.', '!', '?', '\r', '\n', '-', '—', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '»', '«', ':', ';', '"','\'', '(', ')', '*')
+        .split("[^a-zа-яё]".toRegex())
+        .filter { it.isNotEmpty() }
+
+    val map = words.associateWith { w -> words.count { it == w } }
+
+    if (map.isEmpty()) return map
+    val top20 = map.values.toSet().sorted().reversed().take(20).last()
+
+    val r = map
+        .filterValues { it >= top20 }
+        .toList()
+        .sortedBy { (_, v) -> v }
+        .reversed()
+
+    val lastValue = r.take(20).last().second
+    return r.toMap().filterValues { it >= lastValue }
+}
 
 /**
  * Средняя (14 баллов)
