@@ -154,15 +154,14 @@ fun lcm(m: Int, n: Int): Int {
     var r = 1
     var a = m
     var b = n
-    var mind = minDivisor(a)
-    while (mind != a) {
+    do {
+        val mind = minDivisor(a)
         if (b % mind == 0) {
             b /= mind
         }
         r *= mind
         a /= mind
-        mind = minDivisor(a)
-    }
+    } while (mind != a)
     return r * a * b
 }
 
