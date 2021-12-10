@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+import java.time.DateTimeException
 import java.time.LocalDate
 
 // Урок 6: разбор строк, исключения
@@ -76,31 +77,36 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
+val months = mapOf(
+    "января" to 1,
+    "февраля" to 2,
+    "марта" to 3,
+    "апреля" to 4,
+    "мая" to 5,
+    "июня" to 6,
+    "июля" to 7,
+    "августа" to 8,
+    "сентября" to 9,
+    "октября" to 10,
+    "ноября" to 11,
+    "декабря" to 12
+)
 fun dateStrToDigit(str: String): String {
-    val months = mapOf(
-        "января" to 1,
-        "февраля" to 2,
-        "марта" to 3,
-        "апреля" to 4,
-        "мая" to 5,
-        "июня" to 6,
-        "июля" to 7,
-        "августа" to 8,
-        "сентября" to 9,
-        "октября" to 10,
-        "ноября" to 11,
-        "декабря" to 12
-    )
     var r = ""
+
+    val parts = str.split(" ")
+    if (parts.size != 3) return r
+    val (d, m, y) = parts
+    val day = d.toInt()
+    val month = months[m]
+    if (month == null) return r
+    val year = y.toInt()
     try {
-        val (d, m, y) = str.split(" ")
-        val day = d.toInt()
-        val month = months[m]!!
-        val year = y.toInt()
-        val date = LocalDate.of(year, month, day)
-        r = "${twoDigitStr(day)}.${twoDigitStr(month)}.$year"
-    } catch (e: Exception) {
+        LocalDate.of(year, month, day)
+    } catch (e: DateTimeException) {
+        return r
     }
+    r = "${twoDigitStr(day)}.${twoDigitStr(month)}.$year"
     return r
 }
 
@@ -115,32 +121,37 @@ fun dateStrToDigit(str: String): String {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
+val monthsList = listOf(
+    "января",
+    "февраля",
+    "марта",
+    "апреля",
+    "мая",
+    "июня",
+    "июля",
+    "августа",
+    "сентября",
+    "октября",
+    "ноября",
+    "декабря"
+)
 fun dateDigitToStr(digital: String): String {
-
-    val months = listOf(
-        "января",
-        "февраля",
-        "марта",
-        "апреля",
-        "мая",
-        "июня",
-        "июля",
-        "августа",
-        "сентября",
-        "октября",
-        "ноября",
-        "декабря"
-    )
     var r = ""
+
+    val parts = digital.split(".")
+    if (parts.size != 3) return r
     try {
-        val parts = digital.split(".").map { it.toInt() }
-        require(parts.size == 3)
-        val (day, month, year) = parts
-        val date = LocalDate.of(year, month, day)
-        r = "$day ${months[month - 1]} $year"
-    } catch (e: Exception) {
+        val (day, month, year) = parts.map { it.toInt() }
+        try {
+            LocalDate.of(year, month, day)
+        } catch (e: DateTimeException) {
+            return r
+        }
+        r = "$day ${monthsList[month - 1]} $year"
+        return r
+    } catch (e: NumberFormatException) {
+        return r
     }
-    return r
 }
 
 

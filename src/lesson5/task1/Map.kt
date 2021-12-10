@@ -113,9 +113,6 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
         return false
     }
     for ((k,v) in a){
-        if (!b.containsKey(k)) {
-            return false
-        }
         if (v != b[k]) {
             return false
         }
