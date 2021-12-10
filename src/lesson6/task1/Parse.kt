@@ -97,17 +97,21 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     if (parts.size != 3) return r
     val (d, m, y) = parts
-    val day = d.toInt()
     val month = months[m]
     if (month == null) return r
-    val year = y.toInt()
     try {
-        LocalDate.of(year, month, day)
-    } catch (e: DateTimeException) {
+        val day = d.toInt()
+        val year = y.toInt()
+        try {
+            LocalDate.of(year, month, day)
+        } catch (e: DateTimeException) {
+            return r
+        }
+        r = "${twoDigitStr(day)}.${twoDigitStr(month)}.$year"
+        return r
+    } catch (e: NumberFormatException) {
         return r
     }
-    r = "${twoDigitStr(day)}.${twoDigitStr(month)}.$year"
-    return r
 }
 
 
