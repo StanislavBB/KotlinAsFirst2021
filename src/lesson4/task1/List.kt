@@ -294,18 +294,18 @@ fun roman(n: Int): String {
     )
     var number = n
     var i = 0
-    var r = ""
+    val r = StringBuilder()
     while (number > 0 && i < romanNumerals.size) {
         val romanSymbol = romanNumerals[i].first
         val value = romanNumerals[i].second
         if (value <= number) {
-            r += romanSymbol
-            number -= value
+            r.append(romanSymbol)
+            number = number - value
         } else {
             i++
         }
     }
-    return r
+    return r.toString()
 }
 
 /**

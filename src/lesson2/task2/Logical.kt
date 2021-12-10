@@ -63,9 +63,5 @@ fun circleInside(
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val (m1, m2) = listOf(a, b, c).sorted()
-    min(min(a, b), c)
-    val sum = (a + b + c)
-    val a = (sum - (b + c))
-
     return m1 <= min(r, s) && m2 <= max(r, s)
 }
