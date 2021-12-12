@@ -112,7 +112,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     if (a.size > b.size) {
         return false
     }
-    for ((k,v) in a){
+    for ((k, v) in a) {
         if (v != b[k]) {
             return false
         }
@@ -297,10 +297,13 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    list.forEachIndexed { i, n ->
-        for (j in i + 1 until list.size) {
-            if (list[i] + list[j] == number) return Pair(i, j)
+    val m = mutableMapOf<Int, Int>()
+    list.mapIndexed { i, v ->
+        val r = number - list[i]
+        if (m.containsKey(r)) {
+            return Pair(m[r]!!, i)
         }
+        m[v] = i
     }
     return Pair(-1, -1)
 }
