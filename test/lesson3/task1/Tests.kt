@@ -135,6 +135,7 @@ class Tests {
     @Test
     @Tag("3")
     fun lcm() {
+        assertEquals(504735, lcm(9177, 26565))
         assertEquals(13, lcm(13, 13))
         assertEquals(8, lcm(2, 8))
         assertEquals(24, lcm(6, 8))
@@ -155,6 +156,10 @@ class Tests {
         assertFalse(isCoPrime(37, 111))
         assertTrue(isCoPrime(1234567890, 908765431))
         assertTrue(isCoPrime(2109876543, 1234567891))
+    }
+
+    private fun assertTrue(coPrime: Unit, i: Int, n: Any) {
+
     }
 
     @Test
